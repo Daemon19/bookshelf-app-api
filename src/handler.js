@@ -39,7 +39,7 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request) => {
-  const { name, reading } = request.query;
+  const { name, reading, finished } = request.query;
 
   let responseBooks = [...books];
 
@@ -48,9 +48,16 @@ const getAllBooksHandler = (request) => {
     responseBooks = responseBooks.filter((book) => book.name.match(regex) !== null);
   }
 
+  const strToBool = (str) => Boolean(Number(str));
+
   if (reading !== undefined) {
-    const isReading = Boolean(Number(reading));
+    const isReading = strToBool(reading);
     responseBooks = responseBooks.filter((book) => book.reading === isReading);
+  }
+
+  if (finished !== undefined) {
+    const isFinished = strToBool(finished);
+    responseBooks = responseBooks.filter((book) => book.finished === isFinished);
   }
 
   responseBooks = responseBooks.map(
