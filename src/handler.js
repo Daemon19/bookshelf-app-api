@@ -93,6 +93,28 @@ const updateBookByIdHandler = (request, h) => {
   };
 };
 
+const deleteBookByIdHandler = (request, h) => {
+  const { id } = request.params;
+  const index = books.findIndex((book) => book.id === id);
+
+  if (index === -1) {
+    return h.response(
+      { status: 'fail', message: 'Buku gagal dihapus. Id tidak ditemukan' },
+    ).code(404);
+  }
+
+  books.splice(index, 1);
+
+  return {
+    status: 'success',
+    message: 'Buku berhasil dihapus',
+  };
+};
+
 module.exports = {
-  addBookHandler, getAllBooksHandler, getBookByIdHandler, updateBookByIdHandler,
+  addBookHandler,
+  getAllBooksHandler,
+  getBookByIdHandler,
+  updateBookByIdHandler,
+  deleteBookByIdHandler,
 };
