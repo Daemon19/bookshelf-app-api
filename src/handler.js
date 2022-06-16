@@ -38,8 +38,15 @@ const addBookHandler = (request, h) => {
   }
 };
 
-const getAllBooksHandler = () => {
-  const responseBooks = books.map(({ id, name, publisher }) => ({ id, name, publisher }));
+const getAllBooksHandler = (request) => {
+  let responseBooks = books.map(({ id, name, publisher }) => ({ id, name, publisher }));
+
+  const { name } = request.query;
+
+  if (name !== undefined) {
+    const regex = new RegExp(name, 'gi');
+    responseBooks = responseBooks.filter((book) => book.name.match(regex) !== null);
+  }
 
   return {
     status: 'success',
