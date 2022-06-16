@@ -85,7 +85,12 @@ const updateBookByIdHandler = (request, h) => {
 
   if (index === -1) return failResponse('Id tidak ditemukan', 404);
 
-  books[index] = { ...books[index], ...newBook };
+  const finished = newBook.readPage === newBook.pageCount;
+  const updatedAt = new Date().toISOString();
+
+  books[index] = {
+    ...books[index], ...newBook, finished, updatedAt,
+  };
 
   return {
     status: 'success',
